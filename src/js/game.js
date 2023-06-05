@@ -16,12 +16,12 @@ export class Game extends Engine {
             height: 900,
             displayMode: "fullscreen",
         })
-        this.showDebug(true)
-        Physics.useRealisticPhysics()
-        Physics.gravity = new Vector(0, 10000)
         this.start(ResourceLoader).then(() => this.startGame())
+        Physics.useArcadePhysics()
+        Physics.gravity = new Vector(0, 900)
+        this.showDebug(true)
     }
-    score
+
     scorelabel
     timer
 
@@ -30,37 +30,8 @@ export class Game extends Engine {
         this.add("level1", new Level1(this.engine))
         this.goToScene("level1")
 
-            this.score = 0
-            this.scorelabel = new Label({
-                text: `Score: ${this.score}`,
-                pos: new Vector(100, 100),
-                font: new Font({
-                    family: 'impact',
-                    size: 40,
-                    unit: FontUnit.Px,
-                    color:Color.White
-                })
-            })
-            this.add(this.scorelabel)
 
-        this.timer = new Timer({
-            interval: 100,
-            repeats: true,
-            fcn: () => {
-                this.updateScore()
-                console.log(this.score)
-            }
-        })
-        this.add(this.timer)
     }
-
-    updateScore(){
-        this.score++
-        this.scorelabel.text = `Score: ${this.score}`
-    }
-
-
-
 }
 new Game()
 

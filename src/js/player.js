@@ -10,6 +10,7 @@ import {
     Vector
 } from "excalibur";
 import {Resources} from "./resources.js";
+import {Ground} from "./ground.js";
 
 export class Player extends Actor{
     // constructor(posX, posY){
@@ -47,14 +48,20 @@ export class Player extends Actor{
     // }
 
     constructor(posX, posY){
-        super({width: Resources.PlayerRun.width/6, height: Resources.PlayerRun.height});
-        this.graphics.use(Resources.PlayerRun.toSprite());
-        this.actions.scaleTo(vec(1.5, 1.5), vec(100, 100))
+        super({width: Resources.Punk.width, height: Resources.Punk.height});
+        this.graphics.use(Resources.Punk.toSprite());
+        this.actions.scaleTo(vec(2, 2), vec(100, 100))
         this.pos = new Vector(posX, posY);
-        this.body.limitDegreeOfFreedom.push(DegreeOfFreedom.Rotation);
         this.body.collisionType = CollisionType.Active
-        this.body.useGravity = true;
+        this.on('collisionstart',(event) =>{this.isGrounded(event)})
     }
+
+    isGrounded(event){
+        if(event.other instanceof Ground){
+            this.grounded = true;
+        }
+    }
+
 
     onPreUpdate(_engine, _delta) {
 
@@ -62,20 +69,26 @@ export class Player extends Actor{
         let y = 0
 
         if (_engine.input.keyboard.isHeld(Input.Keys.D) || _engine.input.keyboard.isHeld(Input.Keys.Right)) {
-            x = 300
+            x = 200
             // this.graphics.use("run")
             // Animation.flipHorizontal = false
         }
         if (_engine.input.keyboard.isHeld(Input.Keys.A) || _engine.input.keyboard.isHeld(Input.Keys.Left)) {
-            x = -300
+            x = -200
             // this.graphics.use("run")
         }
-
-        if (_engine.input.keyboard.wasPressed(Input.Keys.Space) || _engine.input.keyboard.wasPressed(Input.Keys.Up)) {
-            y = -40000
+        if (_engine.input.keyboard.isHeld(Input.Keys.S) || _engine.input.keyboard.isHeld(Input.Keys.Down)) {
+            y = 50
         }
 
-        this.vel = new Vector(x, y)
+        if(this.grounded){
+            if (_engine.input.keyboard.wasPressed(Input.Keys.Space)){
+                y = -500;
+                this.grounded = false;
+            }
+        }
+
+        this.vel = new Vector(x, this.vel.y + y)
 
         // blijf binnen beeld
         this.pos.x = clamp(this.pos.x, this.width/2, _engine.drawWidth - this.width/2);
