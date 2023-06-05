@@ -8,6 +8,7 @@ export class Ground extends Actor {
         super({width: Resources.Tile.width, height: Resources.Tile.height});
         this.pos = new Vector(posX, posY);
         this.collisionType = CollisionType.Fixed
+        this.body.collisionType = CollisionType.Fixed
         this.graphics.use(Resources.Tile.toSprite());
     }
 
