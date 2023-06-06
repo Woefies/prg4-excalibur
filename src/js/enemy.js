@@ -10,6 +10,8 @@ import {
     Vector
 } from "excalibur";
 import {Resources} from "./resources.js";
+import {Player} from "./player.js";
+import {Engine} from "excalibur";
 
 export class Enemy extends Actor{
 
@@ -39,11 +41,10 @@ export class Enemy extends Actor{
         super({width: Resources.EnemyRun.width, height: 24});
         this.graphics.use(Resources.EnemyRun.toSprite());
         this.actions.scaleTo(vec(2, 2), vec(100, 100))
-
-
         this.pos = new Vector(1500, randomInRange(580, 400));
         this.body.collisionType = CollisionType.Fixed;
         this.vel = vec(-300, 0);
+
 
 
     }

@@ -5,6 +5,7 @@ import playeridle from '../images/punk/punk_idle.png'
 import enemyrun from '../images/5/enemy.png'
 import background from '../images/background-cropped.png'
 import tile from '../images/tile.png'
+import buttonStart from '../images/buttonStart.png'
 
 const Resources = {
     Punk: new ImageSource(punk),
@@ -12,8 +13,9 @@ const Resources = {
     PlayerIdle: new ImageSource(playeridle),
     EnemyRun: new ImageSource(enemyrun),
     Background: new ImageSource(background),
-    Tile: new ImageSource(tile)
+    Tile: new ImageSource(tile),
+    ButtonStart: new ImageSource(buttonStart)
 }
-const ResourceLoader = new Loader([Resources.Punk, Resources.PlayerRun, Resources.PlayerIdle, Resources.EnemyRun, Resources.Background, Resources.Tile])
+const ResourceLoader = new Loader([Resources.Punk, Resources.PlayerRun, Resources.PlayerIdle, Resources.EnemyRun, Resources.Background, Resources.Tile, Resources.ButtonStart])
 
 export { Resources, ResourceLoader }

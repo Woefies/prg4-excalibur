@@ -21,7 +21,8 @@ import {Enemy} from "./enemy.js";
 
 
 
-export class Gameover extends Scene {
+
+export class Startscreen extends Scene {
     constructor(engine) {
         super();
     }
@@ -29,48 +30,43 @@ export class Gameover extends Scene {
 
     game
     engine
-    score
 
 
     onInitialize(_engine) {
         this.game = _engine
-        console.log("gameover")
-
+        console.log("start")
 
         const background = new Background();
         this.add(background)
 
-        this.scorelabel = new Label({
-            text: `Score: ${this.score}`,
-            pos: new Vector(520, 200),
-            font: new Font({
-                family: 'impact',
-                size: 60,
-                unit: FontUnit.Px,
-                color:Color.White
-            })
+        this.Title = new Label({
+            x: 580,
+            y: 300,
+            width: 100,
+            height: 100,
+            text: "PUNKRUNNER",
+            color: Color.White,
+            font: new Font({size: 50, unit: FontUnit.Px, family: "impact"})
         })
-        this.add(this.scorelabel)
+        this.add(this.Title)
 
-        this.restartbutton = new Actor({
-            z: 100,
-            x: 700,
-            y: 400,
+        this.startbutton = new Actor({
+            x: 720,
+            y: 520,
             width: Resources.ButtonStart.width,
             height: Resources.ButtonStart.height,
             collisionType: CollisionType.PreventCollision
         })
-        this.restartbutton.graphics.use(Resources.ButtonStart.toSprite())
-        this.restartbutton.actions.scaleTo(vec(3.5,3.5),vec(7,7))
-        this.restartbutton.on('pointerup', () => {
+        this.startbutton.graphics.use(Resources.ButtonStart.toSprite())
+        this.startbutton.actions.scaleTo(vec(3.5,3.5),vec(7,7))
+        this.startbutton.on('pointerup', () => {
             this.game.goToScene("level1")
-            window.location.reload()
         })
-        this.add(this.restartbutton)
-
+        this.add(this.startbutton)
     }
 
     onActivate(ctx) {
+
 
 
 

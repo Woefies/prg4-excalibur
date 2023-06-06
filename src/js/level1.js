@@ -18,6 +18,7 @@ export class Level1 extends Scene {
     game
     engine
     score = 0
+    lives = 3
 
 
     onInitialize(_engine) {
@@ -26,7 +27,7 @@ export class Level1 extends Scene {
 
         this.timer = new Timer({
             fcn: () => {
-                this.spawn(_engine),
+                this.spawn(_engine)
                 this.updateScore()
             },
             randomRange: [0, 1000],
@@ -35,14 +36,6 @@ export class Level1 extends Scene {
         })
         _engine.currentScene.add(this.timer)
         this.timer.start()
-
-
-
-
-    }
-
-    onActivate(ctx) {
-
 
         const background = new Background();
         this.add(background)
@@ -53,6 +46,7 @@ export class Level1 extends Scene {
             this.add(ground)
             posx += 33
         }
+
         const player = new Player(550, 550);
         this.add(player)
 
@@ -68,6 +62,31 @@ export class Level1 extends Scene {
         })
         this.add(this.scorelabel)
 
+
+        this.LivesLabel = new Label({
+            text: `Lives: ${this.lives}`,
+            pos: new Vector(100, 150),
+            font: new Font({
+                family: 'impact',
+                size: 40,
+                unit: FontUnit.Px,
+                color:Color.White
+            })
+        })
+        this.add(this.LivesLabel)
+
+        this.on('collisionstart', (e) => {
+            if (e.other instanceof Enemy) {
+                this.updateLives()
+
+            }
+        });
+    }
+
+
+    updateLives() {
+        this.lives -= 1
+        this.LivesLabel.text = `Lives: ${this.lives}`
     }
 
     updateScore() {
@@ -75,13 +94,13 @@ export class Level1 extends Scene {
         this.scorelabel.text = `Score: ${this.score}`
     }
 
-    spawn(engine) {
+    spawn(_engine) {
         console.log("spawn")
         const enemy = new Enemy(
             this.random.integer(0, 800),
             this.random.integer(0, 600)
         )
-        engine.currentScene.add(enemy)
+        _engine.currentScene.add(enemy)
     }
 }
 

@@ -11,6 +11,8 @@ import {
 } from "excalibur";
 import {Resources} from "./resources.js";
 import {Ground} from "./ground.js";
+import {Enemy} from "./enemy.js";
+
 
 export class Player extends Actor{
     // constructor(posX, posY){
@@ -55,13 +57,36 @@ export class Player extends Actor{
         this.body.collisionType = CollisionType.Active
         this.on('collisionstart',(event) =>{this.isGrounded(event)})
     }
+    lives = 3
+
+    onInitialize(_engine) {
+        super.onInitialize(_engine);
+
+
+
+        this.on('collisionstart', (e) => {
+            if (e.other instanceof Enemy) {
+                if (this.lives > 0){
+                    this.lives -= 1
+
+                } else {
+                    this.kill();
+                    _engine.currentScene.remove("level1")
+                    _engine.goToScene("gameover");
+                }
+            }
+        });
+
+
+
+
+    }
 
     isGrounded(event){
         if(event.other instanceof Ground){
             this.grounded = true;
         }
     }
-
 
     onPreUpdate(_engine, _delta) {
 
