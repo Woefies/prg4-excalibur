@@ -57,11 +57,11 @@ export class Player extends Actor{
         this.body.collisionType = CollisionType.Active
         this.on('collisionstart',(event) =>{this.isGrounded(event)})
     }
-    lives = 3
+
 
     onInitialize(_engine) {
         super.onInitialize(_engine);
-
+        this.Lives()
 
 
         this.on('collisionstart', (e) => {
@@ -77,9 +77,9 @@ export class Player extends Actor{
             }
         });
 
-
-
-
+    }
+    Lives(){
+        this.lives = 3
     }
 
     isGrounded(event){
@@ -119,6 +119,8 @@ export class Player extends Actor{
         this.pos.x = clamp(this.pos.x, this.width/2, _engine.drawWidth - this.width/2);
         this.pos.y = clamp(this.pos.y, this.height/2, _engine.drawHeight - this.height/2);
     }
+
+
 
 
 }
